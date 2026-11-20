@@ -48,6 +48,10 @@ public class SalesContract extends Contract{
         return getVehicleSold().getPrice().multiply(new BigDecimal("0.05")).setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
+    public BigDecimal getRecordingFee() {
+        return recordingFee;
+    }
+
     public boolean isFinanced() {
         return isFinanced;
     }
