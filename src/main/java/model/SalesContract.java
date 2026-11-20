@@ -5,13 +5,11 @@ import java.time.LocalDate;
 
 public class SalesContract extends Contract{
     private BigDecimal salesTaxAmount;
-    private BigDecimal recordingFee;
+    private BigDecimal recordingFee = new BigDecimal("100.00");
     private boolean isFinanced;
 
     public SalesContract(LocalDate contractDate, String customerName, String customerEmail, Vehicle vehicleSold,  boolean isFinanced) {
         super(contractDate, customerName, customerEmail, vehicleSold);
-        this.salesTaxAmount = vehicleSold.getPrice().multiply(new BigDecimal("0.05"));
-        this.recordingFee = new BigDecimal("100");
         this.isFinanced = isFinanced;
     }
 
@@ -28,8 +26,7 @@ public class SalesContract extends Contract{
 
     @Override
     public BigDecimal getTotalPrice() {
-        Vehicle vehicle = getVehicleSold();
-        return vehicle.getPrice().add(salesTaxAmount).add(recordingFee).add(getProcessingFee());
+        return getVehicleSold().getPrice().add(getSalesTaxAmount()).add(recordingFee).add(getProcessingFee());
     }
 
     @Override
@@ -48,26 +45,10 @@ public class SalesContract extends Contract{
     }
 
     public BigDecimal getSalesTaxAmount() {
-        return salesTaxAmount;
-    }
-
-    public void setSalesTaxAmount(BigDecimal salesTaxAmount) {
-        this.salesTaxAmount = salesTaxAmount;
-    }
-
-    public BigDecimal getRecordingFee() {
-        return recordingFee;
-    }
-
-    public void setRecordingFee(BigDecimal recordingFee) {
-        this.recordingFee = recordingFee;
+        return getVehicleSold().getPrice().multiply(new BigDecimal("0.05")).setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
     public boolean isFinanced() {
         return isFinanced;
-    }
-
-    public void setFinanced(boolean financed) {
-        isFinanced = financed;
     }
 }
