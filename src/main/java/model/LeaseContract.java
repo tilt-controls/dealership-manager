@@ -20,7 +20,8 @@ public class LeaseContract extends Contract {
 
     @Override
     public BigDecimal getMonthlyPayment() {
-        return null;
+        BigDecimal interestRate = new BigDecimal("4.00");
+        return LoanCalculator.calculateMonthlyPayment(getTotalPrice(), interestRate, 36);
     }
 
     public BigDecimal getExpectedEndingValue() {
