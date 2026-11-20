@@ -40,12 +40,10 @@ public class SalesContract extends Contract{
         if (!isFinanced) {
             return BigDecimal.ZERO;
         }
-        if (isFinanced) {
-            if (getTotalPrice().compareTo(limit) >= 0) {
-                return LoanCalculator.calculateMonthlyPayment(getTotalPrice(),lowerRate, 48);
-            } else if (getTotalPrice().compareTo(limit) < 0) {
-                return LoanCalculator.calculateMonthlyPayment(getTotalPrice(), higherRate, 24);
-            }
+        if (getTotalPrice().compareTo(limit) >= 0) {
+            return LoanCalculator.calculateMonthlyPayment(getTotalPrice(),lowerRate, 48);
+        } else {
+            return LoanCalculator.calculateMonthlyPayment(getTotalPrice(), higherRate, 24);
         }
     }
 
