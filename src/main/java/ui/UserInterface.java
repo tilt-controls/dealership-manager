@@ -1,7 +1,9 @@
 package ui;
 
 import data.DealershipFileManager;
+import model.Contract;
 import model.Dealership;
+import model.SalesContract;
 import model.Vehicle;
 
 import java.math.BigDecimal;
@@ -80,6 +82,10 @@ public class UserInterface {
 
                 case "R" -> processRemoveVehicleRequest();
 
+                case "E" -> processSaleRequest();
+
+                case "L" -> processLeaseRequest();
+
                 case "X" -> System.out.println("Good Bye!");
 
                 default -> System.out.println("Unknown Command! Try again.");
@@ -114,6 +120,15 @@ public class UserInterface {
         displayVehicles(matchedVehicles);
         pressEnterToContinue();
     }
+
+    public void processSaleRequest() {
+        int vin = promptForInt("Please enter the VIN: ");
+
+    }
+
+    public void processLeaseRequest() {}
+
+
 
     public void processGetByPriceRequest() {
         BigDecimal min = promptForBigDecimal("Please enter minimum price for a vehicle: ");

@@ -17,6 +17,16 @@ public class Dealership {
         this.phone = phone;
     }
 
+    public ArrayList<Vehicle> getVehiclesByVin(int vin) {
+        ArrayList<Vehicle> matchedVehicles = new ArrayList<>();
+        for (Vehicle vehicle : getAllVehicles()) {
+            if (vehicle.getVin() == vin) {
+                matchedVehicles.add(vehicle);
+            }
+        }
+        return matchedVehicles;
+    }
+
     public ArrayList<Vehicle> getVehiclesByPrice(BigDecimal min, BigDecimal max) {
         ArrayList<Vehicle> matchedVehicles = new ArrayList<>();
         for (Vehicle vehicle : getAllVehicles()) {
@@ -122,4 +132,5 @@ public class Dealership {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
 }
