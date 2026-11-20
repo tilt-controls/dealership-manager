@@ -19,8 +19,7 @@ public class SalesContract extends Contract{
         BigDecimal lowerFee = new BigDecimal("295.00");
         BigDecimal higherFee = new BigDecimal("495.00");
         BigDecimal limit = new BigDecimal("10000.00");
-        Vehicle vehicle = getVehicleSold();
-        if (vehicle.getPrice().compareTo(limit) < 0) {
+        if (getVehicleSold().getPrice().compareTo(limit) < 0) {
             return lowerFee;
         } else {
             return higherFee;
