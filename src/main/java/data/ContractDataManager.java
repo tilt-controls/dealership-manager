@@ -14,8 +14,7 @@ public class ContractDataManager{
 
     public void saveContract(Contract contract) {
 
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("contracts.csv", true));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("contracts.csv", true))) {
             if (contract instanceof SalesContract salesContract) {
                 writer.write("SALE|");
             } else {
@@ -31,7 +30,7 @@ public class ContractDataManager{
             } else if  (contract instanceof LeaseContract leaseContract) {
                 writer.write(leaseContract.getExpectedEndingValue() + "|" + leaseContract.getLeaseFee() + "|" + leaseContract.getTotalPrice() + "|" + leaseContract.getMonthlyPayment() + "\n");
             }
-        } catch  (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

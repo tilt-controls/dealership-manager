@@ -1,5 +1,6 @@
 package ui;
 
+import data.ContractDataManager;
 import data.DealershipFileManager;
 import model.Contract;
 import model.Dealership;
@@ -7,6 +8,7 @@ import model.SalesContract;
 import model.Vehicle;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.math.*;
@@ -57,6 +59,7 @@ public class UserInterface {
             System.out.println("S) Custom Search");
             System.out.println("N) Add a Vehicle");
             System.out.println("R) Remove a Vehicle");
+            System.out.println("E) Sale or Lease Car");
             System.out.println("X) Exit");
             System.out.print("Enter a command: ");
             command = scanner.nextLine().trim().toUpperCase();
@@ -82,9 +85,7 @@ public class UserInterface {
 
                 case "R" -> processRemoveVehicleRequest();
 
-                case "E" -> processSaleRequest();
-
-                case "L" -> processLeaseRequest();
+                case "E" -> processContractRequest();
 
                 case "X" -> System.out.println("Good Bye!");
 
@@ -121,12 +122,47 @@ public class UserInterface {
         pressEnterToContinue();
     }
 
-    public void processSaleRequest() {
+    public void processContractRequest() {
+
+        ContractDataManager cdm = new ContractDataManager();
         int vin = promptForInt("Please enter the VIN: ");
+        ArrayList<Vehicle> matchedVehicles = dealership.getVehiclesByVin(vin);
+        if (matchedVehicles.isEmpty()) {
+            System.out.println("No matching vehicles found!");
+        } else if (matchedVehicles.size() > 1) {
+            displayVehicles(matchedVehicles);
+            return;
+        }
+        Vehicle matchedVehicle = matchedVehicles.get(0);
+        String name = promptForString("Enter Name: ");
+        String email = promptForString("Enter Email: ");
+        String contractType = promptForString("""
+                Enter contract type!
+                Type sale or lease: """);
+        if (contractType.equalsIgnoreCase("sale")) {
+            SalesContract contract = processSaleRequest(name, email, matchedVehicle);
+            cdm.saveContract(contract);
+            displaySaleContract(contract);
+        }
+        
 
     }
+    public SalesContract processSaleRequest(String name, String email, Vehicle vehicle) {
+        System.out.println("""
+                Would you like to finance the car?
+                Enter true for yes or false for no: """);
+        boolean isFinanced = scanner.nextBoolean();
+        return new SalesContract(LocalDate.now(), name, email, vehicle, isFinanced);
+    }
 
-    public void processLeaseRequest() {}
+    public void displaySaleContract(SalesContract contract) {
+        if (contract.isFinanced()) {
+            System.out.println("Monthly payment: " + contract.getMonthlyPayment());
+            System.out.println("Total price: " + contract.getTotalPrice());
+        } else {
+            System.out.println("Total price: " + contract.getTotalPrice());
+        }
+    }
 
 
 

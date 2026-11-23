@@ -31,8 +31,8 @@ public class Program {
 //        System.out.println("Total price: $" + l2.getTotalPrice());
 //        System.out.println("Monthly payment: $" + l2.getMonthlyPayment());
 
-//        UserInterface ui = new UserInterface();
-//        ui.display();
+        UserInterface ui = new UserInterface();
+        ui.display();
 
     }
 }
